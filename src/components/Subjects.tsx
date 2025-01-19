@@ -1,5 +1,4 @@
 import { getAllExams } from "@/lib/actions/action";
-import Image from "next/image";
 import Link from "next/link";
 
 const Subjects = async () => {
@@ -21,7 +20,7 @@ const Subjects = async () => {
                             <h1 className="text-white">{item.name}</h1>
                             <h2>{item._id}</h2>
                         </div>
-                        <Image src={item.icon} alt='image' />
+                        <img src={item.icon} alt='image' />
                     </Link>
                 )
             })}  

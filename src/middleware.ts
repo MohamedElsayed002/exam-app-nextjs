@@ -5,7 +5,7 @@ import { LOCALES, routing } from './i18n/routing';
 import { getToken } from 'next-auth/jwt';
 
 const authPages = ["/auth/login", "/auth/register", "/auth/recover-password"]
-const publicPages = ['/', ...authPages];
+const publicPages = [ ...authPages];
 const privatePages = ['/quiz-history']
 
  

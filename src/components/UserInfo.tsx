@@ -5,7 +5,6 @@ import { useTranslations } from "next-intl";
 import { Suspense } from "react";
 import { Progress } from "./ui/progress";
 import { Check, Clock, Flag } from "lucide-react";
-import Image from "next/image";
 // bg-gray-200/80 rounded-md p-2 mt-5 w- md:w-[750px]
 
 const UserInfo = () => {
@@ -15,7 +14,7 @@ const UserInfo = () => {
     return (
         <div className="bg-gray-200/80 rounded-md p-2 mt-5 max-w-4xl mx-auto">
             <div className="flex flex-col md:flex-row gap-4">
-                <Image alt='imagee' className="w-full md:w-52 h-60 my-auto rounded-md object-cover" src='/image.jpg' />
+                <img alt='imagee' className="w-full md:w-52 h-60 my-auto rounded-md object-cover" src='/image.jpg' />
                 <div>
                     <div className="flex md:py-8 flex-col gap-4 md:gap-8">
                         <h1 className="font-bold"><span className="text-blue-600">{t('name')}: </span> <Suspense fallback={<h1>Loading..</h1>}> {session?.data?.username} </Suspense></h1>
