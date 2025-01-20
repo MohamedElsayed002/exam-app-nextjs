@@ -25,13 +25,13 @@ const RegisterPage = () => {
     const router = useRouter()
     const { toast } = useToast()
     const t = useTranslations()
-    const { register, handleSubmit } = useForm<Inputs>()
+    const { register, handleSubmit, getValues, formState: { errors } } = useForm<Inputs>()
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
 
         try {
 
-            const response = await axios.post('https://exam.elevateegy.com/api/v1/auth/signup',{
+            const response = await axios.post('https://exam.elevateegy.com/api/v1/auth/signup', {
                 username: data.firstName + data.lastName,
                 firstName: data.firstName,
                 lastName: data.lastName,
@@ -40,9 +40,8 @@ const RegisterPage = () => {
                 rePassword: data.confirmPassword,
                 phone: '01093588197'
             })
-            console.log(response)
 
-            if(response.status === 200) {
+            if (response.status === 200) {
                 toast({
                     title: 'Success',
                     description: 'You have been registered successfully'
@@ -66,60 +65,118 @@ const RegisterPage = () => {
             <h1 className="text-xl mb-5 font-bold">{t('register')}</h1>
             <form onSubmit={handleSubmit(onSubmit)} className="w-full flex flex-col gap-y-3">
                 <div>
-                    {/* <Label>First Name</Label> */}
                     <Input
                         autoFocus={true}
-                        {...register('firstName')}
+                        {...register('firstName', {
+                            required: "First name is required",  // Ensure the field is filled
+                            minLength: {
+                                value: 3,  // Minimum length is 3 characters
+                                message: "First name must be at least 3 characters long"
+                            },
+                            pattern: {
+                                value: /^[A-Za-z\s]+$/,  // Regex pattern to allow only letters and spaces
+                                message: "First name must contain only letters and spaces"
+                            }
+                        })}
                         type='text'
                         name='firstName'
                         placeholder={t('first-name')}
                         className='mt-1'
-                        required
                     />
+
+                    <p className="text-red-500 mt-1">
+                        {errors.firstName && errors.firstName.message}
+                    </p>
                 </div>
                 <div>
-                    {/* <Label>Email</Label> */}
                     <Input
-                        {...register('lastName')}
+                        {...register('lastName', {
+                            required: "Last name is required",  // Ensure the field is filled
+                            minLength: {
+                                value: 3,  // Minimum length is 3 characters
+                                message: "Last name must be at least 3 characters long"
+                            },
+                            pattern: {
+                                value: /^[A-Za-z\s]+$/,  // Regex pattern to allow only letters and spaces
+                                message: "Last name must contain only letters and spaces"
+                            }
+                        })}
                         type='text'
                         name='lastName'
                         placeholder={t('last-name')}
                         className='mt-1'
-                        required
                     />
+                    <p className="text-red-500 mt-1">
+                        {errors.lastName && errors.lastName.message}
+                    </p>
                 </div>
                 <div>
-                    {/* <Label>Email</Label> */}
                     <Input
-                        {...register('email')}
+                        {...register('email', {
+                            required: "Email is required",  // Ensure the field is filled
+                            pattern: {
+                                value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,  // Regex pattern for validating email format
+                                message: "Please enter a valid email address"  // Custom error message for invalid email
+                            }
+                        })}
                         type='email'
                         name='email'
                         placeholder={t('email')}
                         className='mt-1'
-                        required
                     />
+
+                    <p className="text-red-500 mt-1">
+                        {errors.email && errors.email.message}
+                    </p>
                 </div>
                 <div>
-                    {/* <Label>Password</Label> */}
                     <Input
-                        {...register('password')}
+                        {...register('password', {
+                            required: "Password is required",  // Ensure the field is filled
+                            minLength: {
+                                value: 8,  // Minimum length is 8 characters
+                                message: "Password must be at least 8 characters long"
+                            },
+                            pattern: {
+                                value: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/,  // Regex for validating password
+                                message: "Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character"
+                            }
+                        })}
                         type='password'
                         name='password'
                         placeholder={t('password')}
                         className="mt-1"
-                        required
                     />
+
+                    <p className="text-red-500 mt-1">
+                        {errors.password && errors.password.message}
+                    </p>
                 </div>
                 <div>
-                    {/* <Label>Password</Label> */}
                     <Input
-                        {...register('confirmPassword')}
+                        {...register('confirmPassword', {
+                            required: "Confirm password is required",  // Ensure the field is filled
+                            minLength: {
+                                value: 8,  // Minimum length is 8 characters
+                                message: "Password must be at least 8 characters long"
+                            },
+                            pattern: {
+                                value: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/,  // Regex for validating password
+                                message: "Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character"
+                            },
+                            validate: {
+                                matchPassword: (value) => value === getValues('password') || "Passwords do not match",  // Ensure passwords match
+                            }
+                        })}
                         type='password'
                         name='confirmPassword'
                         placeholder={t('confirm-password')}
                         className="mt-1"
-                        required
                     />
+
+                    <p className="text-red-500 mt-1">
+                        {errors.confirmPassword && errors.confirmPassword.message}
+                    </p>
                 </div>
                 <p className='text-end my-1 text-blue-400 hover:underline cursor-pointer'>
                     <Link href='/auth/recover-password'> {t('recover-password-less-than')} </Link>

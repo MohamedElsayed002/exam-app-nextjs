@@ -1,3 +1,4 @@
+import { Toaster } from "@/components/ui/toaster";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 
@@ -14,6 +15,7 @@ const LayoutAuthorization = ({ children }: { children: React.ReactNode }) => {
                     <Image className="rounded-full" src='/bro.png' width={408} height={434} alt='Login Image' priority />
                 </div>
                 <div>
+                    <Toaster/>
                     {children}
                 </div>
             </section>

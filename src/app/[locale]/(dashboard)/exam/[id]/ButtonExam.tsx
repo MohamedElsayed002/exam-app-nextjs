@@ -14,20 +14,20 @@ import { cn } from "@/lib/utils"
 import { Checkbox } from "@/components/ui/checkbox"
 
 export const ButtonSubmit = ({ id }: { id: string }) => {
-    const [data, setData] = useState<Questions[]>([]) 
-    const [isExamStarted, setIsExamStarted] = useState(false) 
-    const [questionNumber, setQuestionNumber] = useState<number>(0) 
+    const [data, setData] = useState<Questions[]>([])
+    const [isExamStarted, setIsExamStarted] = useState(false)
+    const [questionNumber, setQuestionNumber] = useState<number>(0)
     const [selectedAnswers, setSelectedAnswers] = useState<Record<number, string | null>>({})
     const [examFinished, setExamFinished] = useState(false)
-    const [correctAnswers, setCorrectAnswers] = useState<number>(0) // Store the number of correct answers globally
-    const [showResults, setShowResults] = useState(false) // State to control whether to show results or not
+    const [correctAnswers, setCorrectAnswers] = useState<number>(0)
+    const [showResults, setShowResults] = useState(false)
 
     const handleStartExam = async () => {
         try {
             const exams: QuestionResponse = await getQuestionsBySubject(id)
             setData(exams.questions || [])
-            setIsExamStarted(true) 
-            setQuestionNumber(0) 
+            setIsExamStarted(true)
+            setQuestionNumber(0)
         } catch (error) {
             console.error("Failed to fetch questions:", error)
         }
@@ -51,8 +51,8 @@ export const ButtonSubmit = ({ id }: { id: string }) => {
     }
 
     const handleFinish = () => {
-        setExamFinished(true); // Mark exam as finished
-        calculateCorrectAnswers(); // Calculate correct answers when finished
+        setExamFinished(true)
+        calculateCorrectAnswers()
     }
 
     const calculateCorrectAnswers = () => {
@@ -62,18 +62,18 @@ export const ButtonSubmit = ({ id }: { id: string }) => {
                 correctCount++;
             }
         });
-        setCorrectAnswers(correctCount); // Update global state with the correct answer count
+        setCorrectAnswers(correctCount)
     }
 
     const handleCheckboxChange = (questionIndex: number, answerKey: string) => {
         setSelectedAnswers((prev) => ({
             ...prev,
-            [questionIndex]: answerKey, // Store the selected answer globally
+            [questionIndex]: answerKey,
         }))
     }
 
     const handleShowResults = () => {
-        setShowResults(true); // Show detailed results when the button is clicked
+        setShowResults(true);
     }
 
     return (
@@ -156,7 +156,7 @@ export const ButtonSubmit = ({ id }: { id: string }) => {
                                 Question {questionNumber + 1}/{data.length}
                             </DialogTitle>
                             <DialogDescription>
-                                {data[questionNumber]?.question || "Loading question..."}
+                                {data[questionNumber]?.question || "No Questions Available"}
                             </DialogDescription>
                             <ul className="mt-4 ml-5 space-y-2 list-none">
                                 {data[questionNumber]?.answers?.length > 0 ? (

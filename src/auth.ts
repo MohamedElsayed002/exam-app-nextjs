@@ -34,7 +34,6 @@ export const authOptions: NextAuthOptions = {
                         })
                     })
                     const payload : APIResponse<LoginResponse> = await response.json()
-                    console.log(payload.token)
                     if (payload.message === 'success') {
 
                         cookies().set('ecommerce_token',payload.token,{

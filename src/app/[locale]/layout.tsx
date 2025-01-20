@@ -3,6 +3,7 @@ import { routing } from "@/i18n/routing";
 import { setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import Providers from "../providers";
+import { Toaster } from "@/components/ui/toaster";
 
 
 type LocaleLayoutProps = {
@@ -22,6 +23,7 @@ export default function LocaleLayout({ params: { locale }, children }: LocaleLay
         <html lang={locale} dir={locale === "ar" ? "rtl" : "ltr"}>
             <body className={`antialiased`}>
                 <Providers>
+                    <Toaster/>
                     {children}
                 </Providers>
             </body>

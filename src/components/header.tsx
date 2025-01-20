@@ -5,9 +5,11 @@ import { Search } from "lucide-react"
 import { Avatar , AvatarImage , AvatarFallback } from "./ui/avatar"
 import { useLocale, useTranslations } from "next-intl"
 import { cn } from "@/lib/utils"
+import { useSession } from "next-auth/react"
+import ModalAddExam from "./add-exam-admin"
 const Header = () => {
 
-
+    const session = useSession()
     const t = useTranslations()
     const locale = useLocale()
 
@@ -25,7 +27,15 @@ const Header = () => {
                 <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
                 <AvatarFallback>CN</AvatarFallback>
             </Avatar>
-         <Button className='bg-blue-600'>{t('start-quiz')}</Button>
+            { session.data && session?.data.role !== 'user' ? (
+                <>
+                    <Button className='bg-blue-600'>{t('start-quiz')}</Button>
+                </>
+            ): (
+                <>
+                    <ModalAddExam/>
+                </>
+            )}
         </div>
     )
 }

@@ -40,5 +40,6 @@
   "quizes": "Quizes",
   "view-all": "View All",
   "start-quiz": "Start Quiz",
-  "error": "Error"
+  "error": "Error",
+  "email-is-required": "Email is required"
 }
